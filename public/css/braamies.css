@@ -1,0 +1,92 @@
+/* Additional stylesheets for Braamies */
+
+/* Body and structure */
+
+body {
+	position: relative;
+	padding-top: 40px;
+}
+
+body > .navbar {
+	font-size: 13px;
+}
+
+/* base class */
+
+.jumbotron {
+	position: relative;
+	padding: 30px 0;
+	color: #fff;
+	text-align: center;
+	text-shadow: 0 1px 3px rgba(0, 0, 0, .4), 0 0 30px rgba(0, 0, 0, .075);
+	background: -webkit-gradient(linear, left bottom, right top, color-stop(0%, #302f00), color-stop(100%, #6e5934));
+	background: -webkit-linear-gradient(45deg, #302f00 0%, #6e5934 100%);
+	-webkit-box-shadow: inset 0 3px 7px rgba(0, 0, 0, .2), inset 0 -3px 7px rgba(0, 0, 0, .2);
+}
+
+.jumbotron h1 {
+	font-size: 50px;
+	font-weight: bold;
+	letter-spacing: -1px;
+	line-height: 1px;
+}
+
+.jumbotron p {
+	font-size: 20px;
+	font-weight: 200;
+	line-height: 4;
+	margin-bottom: 30px;
+}
+
+.jumbotron blockquote p {
+	font-size: 15px;
+	line-height: 1;
+}
+
+.jumbotron a {
+	color: #fff;
+	color: rgba(255, 255, 255, .5);
+	-webkit-transition: all .2s ease-in-out;
+}
+
+.jumbotron a:hover {
+	color: #fff;
+	text-shadow: 0 0 10px rgba(255, 255, 255, .25);
+}
+
+/* Pattern overlay */
+
+.jumbotron .container {
+	position: relative;
+	z-index: 2;
+}
+
+.jumbotron:after {
+	content: '';
+	display: block;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	opacity: .4;
+}
+
+/* Subhead class */
+
+.subhead {
+	text-align: left;
+	border-bottom: 1px solid #ddd;
+}
+
+.subhead h1 {
+	font-size: 60px;
+}
+
+.subhead p {
+	margin-bottom: 20px;
+}
+
+.subhead .navbar {
+	display: none;
+}
