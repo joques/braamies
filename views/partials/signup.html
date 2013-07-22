@@ -1,0 +1,65 @@
+<div class="container">
+	<div class="span6 offset3">
+		<div class="hero-unit">
+			<form class="form-horizontal" name="signUpForm">
+				<h2>Registration</h2>
+				<p>Please sign up with your username, password and confirm if you are a developer</p>
+				<fieldset>
+					<legend>Login Details</legend>
+					<div class="control-group" ng-class="{error: signUpForm.username.$invalid}">
+						<label class="control-label" for="username">Username</label>
+						<div class="controls">
+							<input class="span2" ng-model="signup.username" name="username" autofocus="on" type="text" size="16" placeholder="username" required>
+						</div>
+					</div>
+					<div class="control-group" ng-class="{error: signUpForm.password.$invalid}">
+						<label class="control-label" for="password">Password</label>
+						<div class="controls">
+							<input class="span2" ng-model="signup.password" name="password" type="password" size="16" placeholder="password" required>
+						</div>
+					</div>
+					<div class="control-group" ng-class="{error: signUpForm.confirmPassword.$invalid}">
+						<label class="control-label" for="confirmPassword">ConfirmPassword</label>
+						<div class="controls">
+							<input class="span2" ng-model="signup.confirmPassword" name="confirmPassword" type="password" size="16" placeholder="confirm password" required>
+						</div>
+					</div>
+					<div class="control-group">
+						<div class="controls">
+							<label class="checkbox">
+								<input type="checkbox" ng-model="signup.isDeveloper">Developer
+							</label>
+						</div>
+					</div>
+				</fieldset>
+				<fieldset>
+					<legend>User Details</legend>
+					<div class="control-group" ng-class="{error: signUpForm.firstname.$invalid}">
+						<label class="control-label" for="firstname">First Name</label>
+						<div class="controls">
+							<input class="span2" ng-model="signup.firstname" name="firstname" type="text" size="16" placeholder="First name" required>
+						</div>
+					</div>
+					<div class="control-group" ng-class="{error: signUpForm.lastname.$invalid}">
+						<label class="control-label" for="lastname">Last Name</label>
+						<div class="controls">
+							<input class="span2" ng-model="signup.lastname" name="lastname" type="text" size="16" placeholder="Last Name" required>
+						</div>
+					</div>
+					<div class="control-group" ng-class="{error: signUpForm.emailAddress.$invalid}">
+						<label class="control-label" for="emailAddress">Email Address</label>
+						<div class="controls">
+							<input class="span2" ng-model="signup.emailAddress" name="emailAddress" type="email" size="16" placeholder="emailAddress" required>
+						</div>
+					</div>
+				</fieldset>
+				<fieldset>
+					<div class="control-group pull-right">
+						<a href="/" class="btn btn-inverse">Cancel</a>
+						<button class="btn btn-primary" ng-click="register()" ng-disabled="signUpForm.$invalid">Sign Up</button>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+</div>

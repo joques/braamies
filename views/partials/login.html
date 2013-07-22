@@ -1,0 +1,33 @@
+<div class="container">
+	<div class="span6 offset3">
+		<div class="hero-unit">
+			<form class="form-horizontal" name="loginForm">
+				<h2>Sign In</h2>
+				<p>Please enter your username and password and sign in</p>
+				<fieldset>
+					<legend></legend>
+					<div class="control-group" ng-class="{error: loginForm.username.$invalid}">
+						<label class="control-label" for="username">Username</label>
+						<div class="controls">
+							<input class="span2" ng-model="login.username" name="username" autofocus="on" type="text" size="16" placeholder="username" required>
+							<span ng-show="loginForm.username.$error.required" class="help-inline">Username Required</span>
+						</div>
+					</div>
+					<div class="control-group" ng-class="{error: loginForm.password.$invalid}">
+						<label class="control-label" for="password">Password</label>
+						<div class="controls">
+							<input class="span2" ng-model="login.password" name="password" type="password" size="16" placeholder="password" required>
+							<span ng-show="loginForm.password.$error.required" class="help-inline">Password Required</span>
+						</div>
+					</div>
+				</fieldset>
+				<fieldset>
+					<div class="control-group pull-right">
+						<a href="/" class="btn btn-inverse">Cancel</a>
+						<button class="btn btn-primary" ng-click="login()" ng-disabled="loginForm.$invalid">Login</button>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+</div>

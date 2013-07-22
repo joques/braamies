@@ -1,0 +1,41 @@
+<div class="container">
+	<div class="masthead">
+		<h3 class="muted">Welcome to Braamies!</h3>
+
+		<!-- fixed navbar -->
+		<div class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container">
+					<div class="nav-collapse collapse">
+						<ul class="nav pull-right">
+							<li class="">
+								<a href="/">Home</a>
+							</li>
+							<li class="divider-vertical"></li>
+							<li class="" ng-show="!loggedIn">
+								<a href="/login">Log In</a>
+							</li>
+							<li class="" ng-show="loggedIn">{{username}}</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="hero-unit">
+		<blockquote class="pull-right">
+			<p>Many ideas grow better when transplanted into another mind than the one where they sprang up</p>
+			<small>Oliver W. Holmes</small>
+		</blockquote>
+	</div>
+
+	<div class="jumbotron">
+		<h1>Contribute to your community</h1>
+		<p class="lead">Submit new project ideas or contibute to existing projects using technology</p>
+		<div class="download-info">
+			<a class="btn btn-large btn-success" href="/signup" ng-show="!loggedIn">Sign Up</a>
+			<a class="btn btn-large btn-warning" href="/projects" ng-show="loggedIn">View Projects</a>
+		</div>
+	</div>
+</div>
