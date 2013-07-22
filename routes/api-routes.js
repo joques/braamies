@@ -34,4 +34,15 @@ module.exports = function(app) {
 	app.delete('/api/project/:project_id', function(request, response) {
 		// delete a project code here
 	});
+
+	app.post('/api/authenticate', function(request, response){
+		console.log("Authenticating user...");
+		// authenticate user
+		sessionData = {}
+		sessionData.username = request.body.username;
+		// lastname should be uppercased
+		// sessionData.fullName = request.body.firstName + " " + request.body.lastName;
+		// sessionData.isDeveloper = request.body.isDeveloper;
+		response.json(sessionData);
+	});
 };

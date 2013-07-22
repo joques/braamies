@@ -12,10 +12,19 @@
 								<a href="/">Home</a>
 							</li>
 							<li class="divider-vertical"></li>
-							<li class="" ng-show="!loggedIn">
+							<li class="" ng-show="!loggedIn()">
 								<a href="/login">Log In</a>
 							</li>
-							<li class="" ng-show="loggedIn">{{username}}</li>
+							<li class="dropdown" id="user-menu" ng-show="loggedIn()">
+								<a class="dropdown-toggle" href="#" data-toggle="dropdown">{{getUsername()}}
+									<b class="caret"></b>
+								</a>
+								<ul class="dropdown-menu">
+									<li class="">
+										<a tabindex="-1" href="/logout">Log Out</a>
+									</li>
+								</ul>
+							</li>
 						</ul>
 					</div>
 				</div>
@@ -34,8 +43,8 @@
 		<h1>Contribute to your community</h1>
 		<p class="lead">Submit new project ideas or contibute to existing projects using technology</p>
 		<div class="download-info">
-			<a class="btn btn-large btn-success" href="/signup" ng-show="!loggedIn">Sign Up</a>
-			<a class="btn btn-large btn-warning" href="/projects" ng-show="loggedIn">View Projects</a>
+			<a class="btn btn-large btn-success" href="/signup" ng-show="!loggedIn()">Sign Up</a>
+			<a class="btn btn-large btn-warning" href="/projects" ng-show="loggedIn()">View Projects</a>
 		</div>
 	</div>
 </div>
