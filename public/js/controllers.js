@@ -7,7 +7,8 @@
 function IndexController($scope, $cookies) {
 	$scope.getUsername = function() {
 		return $cookies.username;
-	}
+	};
+
 	$scope.loggedIn = function() {
 		return ($cookies.username != undefined);
 	};
@@ -16,25 +17,38 @@ function IndexController($scope, $cookies) {
 function LoginController($scope, $location, $http, $cookies) {
 	$scope.login = {};
 	$scope.signIn = function(){
-		$http.post('/api/authenticate', $scope.login).success(function(loginData) {
-			$cookies.username = loginData.username;
-			// $cookies.fullName = loginData.fullName;
-			// $cookies.isDeveloper = loginData.isDeveloper;
-		});
+		$http.post('/api/authenticate', $scope.login).
+			success(function(loginData, status, headers, config) {
+				$cookies.username = loginData.username;
+				$cookies.fullName = loginData.fullName;
+				$cookies.isDeveloper = loginData.isDeveloper;
+			}).
+			error(function(errorData, status, headers, config) {
+				$cookies.username = undefined;
+				$cookies.fullName = undefined;
+				$cookies.isDeveloper = undefined;
+			});
 
 		// redirect to '/'
-		$location.path('/')
+		$location.path('/');
 	};
 }
 
 function SignUpController($scope, $location, $routeParams, $cookies) {
 	$scope.signup = {};
 	$scope.register = function() {
-		$http.post('/api/user', $scope.signup).success(function(signupData) {
-			$cookies.username = signupData.username
-		});
-		// add the new user to the db
-		// if successful add cookies info
+		$http.post('/api/user', $scope.signup).
+			success(function(signupData, status, headers, config){
+				$cookies.username = signupData.username;
+				$cookies.fullName = signupData.fullName;
+				$cookies.isDeveloper - signupData.isDeveloper;
+			}).
+			error(function(errorData, status, headers, config) {
+				$cookies.username = undefined;
+				$cookies.fullName = undefined;
+				$cookies.isDeveloper = undefined;
+			});
+
 		// and redirect to '/'
 		$location.path('/');
 	};

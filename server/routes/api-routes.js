@@ -4,6 +4,8 @@
 *
 **/
 
+var UsersController = require('../lib/controllers/users').UsersController;
+
 module.exports = function(app) {
 	// get all projects
 	// get /api/projects
@@ -35,14 +37,27 @@ module.exports = function(app) {
 		// delete a project code here
 	});
 
+	// user authentication
 	app.post('/api/authenticate', function(request, response){
 		console.log("Authenticating user...");
-		// authenticate user
-		sessionData = {}
-		sessionData.username = request.body.username;
-		// lastname should be uppercased
-		// sessionData.fullName = request.body.firstName + " " + request.body.lastName;
-		// sessionData.isDeveloper = request.body.isDeveloper;
-		response.json(sessionData);
+		new UsersController().authenticate(request.body, function(authenticationError, sessionData){
+			if ((typeof authenticationError !== "undefined") && (authenticationError !== null)) {
+				response.json(500, {error: authenticationError.message});
+			} else{
+				response.json(sessionData);
+			};
+		});
+	});
+
+	// user creation
+	app.post('/api/user', function(request, response) {
+		console.log("Creating a new user...");
+		new UsersController().createUser(request.body, function(createUserError, sessionData){
+			if ((typeof createUserError !== "undefined") && (createUserError !== null)) {
+				response.json(500, {error: createUserError.message});
+			} else{
+				response.json(sessionData);
+			};
+		});
 	});
 };
