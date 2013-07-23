@@ -6,25 +6,29 @@
 				<p>Please enter your username and password and sign in</p>
 				<fieldset>
 					<legend></legend>
+					<div class="alert alert-error" ng-show="loginForm.username.$error.required || loginForm.password.$error.required">
+						<a class="close" data-dismiss="alert" href="#">x</a>
+						Username and Password required!
+					</div>
 					<div class="control-group" ng-class="{error: loginForm.username.$invalid}">
 						<label class="control-label" for="username">Username</label>
 						<div class="controls">
 							<input class="span2" ng-model="login.username" name="username" autofocus="on" type="text" size="16" placeholder="username" required>
-							<span ng-show="loginForm.username.$error.required" class="help-inline">Username Required</span>
+							<!-- <span ng-show="loginForm.username.$error.required" class="help-inline">Username Required</span> -->
 						</div>
 					</div>
 					<div class="control-group" ng-class="{error: loginForm.password.$invalid}">
 						<label class="control-label" for="password">Password</label>
 						<div class="controls">
 							<input class="span2" ng-model="login.password" name="password" type="password" size="16" placeholder="password" required>
-							<span ng-show="loginForm.password.$error.required" class="help-inline">Password Required</span>
+							<!-- <span ng-show="loginForm.password.$error.required" class="help-inline">Password Required</span> -->
 						</div>
 					</div>
 				</fieldset>
 				<fieldset>
 					<div class="control-group pull-right">
-						<a href="/" class="btn btn-inverse">Cancel</a>
-						<button class="btn btn-primary" ng-click="signIn()" ng-disabled="loginForm.$invalid">Login</button>
+						<button class="btn btn-success" ng-click="signIn()" ng-disabled="loginForm.$invalid">Login</button>
+						<a href="/" class="btn">Cancel</a>
 					</div>
 				</fieldset>
 			</form>

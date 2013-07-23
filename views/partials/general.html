@@ -9,14 +9,17 @@
 					<div class="nav-collapse collapse">
 						<ul class="nav pull-right">
 							<li class="">
-								<a href="/">Home</a>
+								<a href="/">
+									<i class="icon-home"></i>
+									Home
+								</a>
 							</li>
 							<li class="divider-vertical"></li>
 							<li class="" ng-show="!loggedIn()">
 								<a href="/login">Log In</a>
 							</li>
 							<li class="dropdown" id="user-menu" ng-show="loggedIn()">
-								<a class="dropdown-toggle" href="#" data-toggle="dropdown">{{getUsername()}}
+								<a class="dropdown-toggle" href="#" data-toggle="dropdown">Welcome, {{getUsername()}}
 									<b class="caret"></b>
 								</a>
 								<ul class="dropdown-menu">
@@ -25,7 +28,10 @@
 									</li>
 									<li class="divider"></li>
 									<li class="">
-										<a tabindex="-1" href="/logout">Log Out</a>
+										<a tabindex="-1" href="/logout">
+											<i class="icon-off"></i>
+											Log Out
+										</a>
 									</li>
 								</ul>
 							</li>
