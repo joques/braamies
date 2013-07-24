@@ -12,19 +12,19 @@
 							<li class="divider-vertical"></li>
 							<li class="" ng-show="!loggedIn()"><a href="/login">Log In</a></li>
 							<li class="dropdown" id="user-menu" ng-show="loggedIn()">
-								<a class="dropdown-toggle" href="#" data-toggle="dropdown">Welcome, {{getUsername()}}
+								<a class="dropdown-toggle" href="#" data-toggle="dropdown">Welcome, {{general.username}}
 									<b class="caret"></b>
 								</a>
 								<ul class="dropdown-menu">
-									<li class="" ng-show="isDeveloper()"><a tabindex="-1" href="">Start Project</a></li>
-									<li class="" ng-show="isDeveloper()"><a tabindex="-1" href="">Complete Project</a></li>
-									<li class="divider" ng-show="isDeveloper()"></li>
+									<li class="" ng-show="canDevelop()"><a tabindex="-1" href="">Start Project</a></li>
+									<li class="" ng-show="canDevelop()"><a tabindex="-1" href="">Complete Project</a></li>
+									<li class="divider" ng-show="canDevelop()"></li>
 									<li class="">
 										<a tabindex="-1" href="/project">Create Project</a>
 									</li>
 									<li class="divider"></li>
 									<li class="">
-										<a tabindex="-1" href="/logout"><i class="icon-off"></i>Log Out</a>
+										<a tabindex="-1" href="/logout"><i class="icon-off"></i> Log Out</a>
 									</li>
 								</ul>
 							</li>

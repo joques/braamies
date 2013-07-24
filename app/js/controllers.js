@@ -4,60 +4,77 @@
 
 // IndexController
 
-function IndexController($scope, $cookies) {
+function IndexController($scope, $cookieStore) {
+	$scope.resetValues = function() {
+		$scope.general = {
+			username: $cookieStore.get('username'),
+			fullName: $cookieStore.get('fullName'),
+			isDeveloper: $cookieStore.get('isDeveloper')
+		};
+	};
+
+	$scope.resetValues();
+
 	$scope.getUsername = function() {
-		return $cookies.username;
+		return $cookieStore.get('username') ;
 	};
 
 	$scope.loggedIn = function() {
-		return ($cookies.username != undefined);
+		return ($cookieStore.get('username') !== undefined);
+	};
+
+	$scope.canDevelop = function() {
+		return (($scope.general.isDeveloper !== undefined) && ($scope.general.isDeveloper));
 	};
 }
 
-function LoginController($scope, $location, $http, $cookies) {
+function LoginController($scope, $location, $http, $cookieStore) {
 	$scope.login = {};
 	$scope.signIn = function(){
 		$http.post('/api/authenticate', $scope.login).
 			success(function(loginData, status, headers, config) {
-				$cookies.username = loginData.username;
-				$cookies.fullName = loginData.fullName;
-				$cookies.isDeveloper = loginData.isDeveloper;
+				$cookieStore.put('username', loginData.username);
+				$cookieStore.put('fullName', loginData.fullName);
+				$cookieStore.put('isDeveloper', loginData.isDeveloper);
+				$location.path('/');
 			}).
 			error(function(errorData, status, headers, config) {
-				$cookies.username = undefined;
-				$cookies.fullName = undefined;
-				$cookies.isDeveloper = undefined;
+				console.log(errorData);
+				$cookieStore.put('username', undefined);
+				$cookieStore.put('fullName', undefined);
+				$cookieStore.put('isDeveloper', undefined);
+				$location.path('/');
 			});
-
-		// redirect to '/'
-		$location.path('/');
 	};
 }
 
-function SignUpController($scope, $location, $http, $cookies) {
+function SignUpController($scope, $location, $http, $cookieStore) {
 	$scope.signup = {};
 	$scope.signup.isDeveloper = true;
 	$scope.register = function() {
 		$http.post('/api/user', $scope.signup).
 			success(function(signupData, status, headers, config){
-				$cookies.username = signupData.username;
-				$cookies.fullName = signupData.fullName;
-				$cookies.isDeveloper - signupData.isDeveloper;
+				$cookieStore.put('username', signupData.username);
+				$cookieStore.put('fullName', signupData.fullName);
+				$cookieStore.put('isDeveloper',signupData.isDeveloper);
+				$location.path('/');
 			}).
 			error(function(errorData, status, headers, config) {
-				$cookies.username = undefined;
-				$cookies.fullName = undefined;
-				$cookies.isDeveloper = undefined;
+				$cookieStore.put('username', undefined);
+				$cookieStore.put('fullName', undefined);
+				$cookieStore.put('isDeveloper', undefined);
+				$location.path('/');
 			});
-
-		// and redirect to '/'
-		$location.path('/');
 	};
 }
 
-function LogoutController($scope, $location, $cookies) {
-	$cookies.username = undefined;
-	$cookies.fullName = undefined;
-	$cookies.isDeveloper = undefined;
+function LogoutController($scope, $location, $cookieStore) {
+	$scope.cleanUpValues = function() {
+		$cookieStore.put('username', undefined);
+		$cookieStore.put('fullName', undefined);
+		$cookieStore.put('isDeveloper', undefined);
+	};
+
+	$scope.cleanUpValues();
 	$location.path('/');
 }
