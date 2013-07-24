@@ -34,8 +34,9 @@ function LoginController($scope, $location, $http, $cookies) {
 	};
 }
 
-function SignUpController($scope, $location, $routeParams, $cookies) {
+function SignUpController($scope, $location, $http, $cookies) {
 	$scope.signup = {};
+	$scope.signup.isDeveloper = true;
 	$scope.register = function() {
 		$http.post('/api/user', $scope.signup).
 			success(function(signupData, status, headers, config){

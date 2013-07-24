@@ -31,16 +31,18 @@ module.exports.User = function() {
 	}
 
 	this.authenticate = function(username, password, callback) {
+		var that = this;
 		dataManager.find('users', username, function(userDataError, userData) {
 			if ((typeof userDataError !== "undefined") && (userDataError !== null)) {
 				callback(userDataError, null);
 			} else{
 				var userPassword = userData.password;
-				this.passwordHandler.verifyPassword(password, userPassword, function(passwordError, compareResult) {
+				that.passwordHandler.verifyPassword(password, userPassword, function(passwordError, compareResult) {
 					if ((typeof passwordError !== "undefined") && (passwordError !== null)) {
 						callback(passwordError, null);
 					} else{
 						if (compareResult === true) {
+							userData.username = username;
 							prepareSessionData(userData, function(sessionDataError, sessionData){
 								callback(sessionDataError, sessionData);
 							});
@@ -62,10 +64,11 @@ module.exports.User = function() {
 				var newUserData = {
 					firstname: userData.firstname,
 					lastname: userData.lastname,
+					isDeveloper: userData.isDeveloper,
 					emailAddress: userData.emailAddress,
 					password: encryptedPassword
 				};
-				dataManager.save('users', username, newUserData, function(saveUserError, saveUserResult){
+				dataManager.save('users', userData.username, newUserData, function(saveUserError, saveUserResult){
 					if ((typeof saveUserError !== "undefined") && (saveUserError !== null)) {
 						callback(saveUserError, null);
 					} else{

@@ -41,6 +41,7 @@ module.exports.PasswordHandler = function(){
 	}
 
 	this.confirmAndEncryptPassword = function(password, confirmPassword, callback) {
+		var that = this;
 		this.confirmPassword(password, confirmPassword, function(confirmError, confirmResult){
 			if ((typeof confirmError !== "undefined") && (confirmError !== null)) {
 				callback(confirmError, null);
@@ -49,7 +50,7 @@ module.exports.PasswordHandler = function(){
 					var passwordMisMatchError = new Error("Password different from confirm password");
 					callback(passwordMisMatchError, null);
 				} else{
-					this.encryptPassword(password, function(encryptError, encryptedPassword){
+					that.encryptPassword(password, function(encryptError, encryptedPassword){
 						callback(encryptError, encryptedPassword);
 					});
 				};
