@@ -11,12 +11,12 @@ var server = http.createServer(app);
 
 // app configuration
 app.configure(function(){
-	app.set('views', __dirname + '/../views');
+	app.set('views', __dirname + '/../app');
 	app.engine('html', require('ejs').renderFile);
 	app.use(express.compress());
 	app.use(express.bodyParser());
 	app.use(express.methodOverride());
-	app.use(express.static(__dirname + '/../public'));
+	app.use(express.static(__dirname + '/../app'));
 	app.use(app.router);
 });
 
@@ -32,8 +32,8 @@ app.configure('production', function() {
 });
 
 // route inclusion
-require('./routes/view-routes')(app);
-require('./routes/api-routes')(app);
+require('../server/routes/view-routes')(app);
+require('../server/routes/api-routes')(app);
 
 // start server
 server.listen(7493, function(){
