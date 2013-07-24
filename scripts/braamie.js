@@ -32,8 +32,8 @@ app.configure('production', function() {
 });
 
 // route inclusion
-require('../server/routes/view-routes')(app);
-require('../server/routes/api-routes')(app);
+require('../app/server/routes/view-routes')(app);
+require('../app/server/routes/api-routes')(app);
 
 // start server
 server.listen(7493, function(){
