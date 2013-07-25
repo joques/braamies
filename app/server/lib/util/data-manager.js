@@ -11,8 +11,20 @@ exports.DataManager = (function(){
 
 		function projectListIterator(curProject, projectIteratorCallback) {
 			var projectsDb1 = nano.use('projects');
-			projectsDb1.get(curProject.key, function(curProjectError, curProjectResult) {
-				projectIteratorCallback(curProjectError, curProjectResult);
+			projectsDb1.get(curProject.project.key, function(curProjectError, curProjectResult) {
+				if ((typeof curProjectError !== "undefined") && (curProjectError !== null)) {
+					projectIteratorCallback(curProjectError, null);
+				} else{ 
+					if ((typeof curProject.searchKey !== "undefined") && (curProject.searchKey !== null) && (curProject.searchKey !== 'undefined')) {
+						if (curProjectResult.title.toLowerCase().indexOf(curProject.searchKey.toLowerCase()) !== -1) {
+							projectIteratorCallback(null, curProjectResult);
+						} else {
+							projectIteratorCallback(null, null);
+						}
+					} else{
+						projectIteratorCallback(null, curProjectResult);
+					};
+				};
 			});
 		}
 
@@ -30,13 +42,19 @@ exports.DataManager = (function(){
 			});
 		}
 
-		function findAllProjects(callback) {
+		function findAllProjects(searchParam, callback) {
 			var projectsDb = nano.use('projects');
 			projectsDb.list(function(projectListError, projectList) {
 				if ((typeof projectListError!== "undefined") && (projectListError !== null)) {
 					callback(projectListError, null);
 				} else{
-					async.map(projectList.rows, projectListIterator, function(allProjectsError, allProjects){
+					var augmentedProjectList = projectList.rows.map(function(projectItem) {
+						return {
+							project: projectItem,
+							searchKey: searchParam
+						};
+					});
+					async.map(augmentedProjectList , projectListIterator, function(allProjectsError, allProjects){
 						callback(allProjectsError, allProjects);
 					});
 				};
@@ -80,10 +98,10 @@ exports.DataManager = (function(){
 				}
 			},
 
-			findAll: function(dbId, callback) {
+			findAll: function(dbId, searchParam, callback) {
 				switch(dbId) {
 					case "projects":
-						findAllProjects(callback);
+						findAllProjects(searchParam, callback);
 						break;
 				}
 			},

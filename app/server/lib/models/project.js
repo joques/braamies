@@ -1,5 +1,6 @@
 'use strict';
 
+var async = require('async');
 var dataManager = require('../util/data-manager').DataManager.getDataManagerInstance();
 
 module.exports.Project = function() {
@@ -9,9 +10,18 @@ module.exports.Project = function() {
 		});
 	}
 
-	this.listAllProjects = function(callback) {
-		dataManager.findAll('projects', function(findAllError, findAllResult) {
-			callback(findAllError, findAllResult);
+	this.listAllProjects = function(searchParam, callback) {
+		dataManager.findAll('projects', searchParam, function(findAllError, findAllResult) {
+			if ((typeof findAllError !== "undefined") && (findAllError !== null)) {
+				callback(findAllError, null);
+			} else {
+				async.filter(findAllResult, function(resultItem, partialCallback){
+					partialCallback(resultItem !== null);
+				}, function(finalResults){
+					callback(null, finalResults);
+				});
+			}
+			// callback(findAllError, findAllResult);
 		});
 	}
 

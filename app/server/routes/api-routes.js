@@ -11,7 +11,7 @@ module.exports = function(app) {
 	// get all projects: "get /api/projects"
 	app.get('/api/projects', function(request, response) {
 		console.log("getting all projects...");
-		new ProjectsController().listAllProjects(request.body, function(projectListError, projectListObj) {
+		new ProjectsController().listAllProjects(request.body, request.query.q, function(projectListError, projectListObj) {
 			if ((typeof projectCreationError !== "undefined") && (projectListError !== null)) {
 				response.json(500, {error: projectListError.message});
 			} else{

@@ -11,8 +11,8 @@ module.exports.ProjectsController = function() {
 		});
 	}
 
-	this.listAllProjects = function(listData, callback) {
-		this.project.listAllProjects(callback, function(projectListError, projectList) {
+	this.listAllProjects = function(listData, searchParam, callback) {
+		this.project.listAllProjects(searchParam, callback, function(projectListError, projectList) {
 			callback(projectListError, projectList);
 		});
 	}

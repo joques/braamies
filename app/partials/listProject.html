@@ -15,6 +15,15 @@
 			</div>
 		</div>
 	</div>
+
+	<form class="form-search form-horizontal pull-right">
+		<div class="input-append">
+			<input type="text" class="input-medium search-query" ng-model="query" placeholder="Search">
+			<button class="btn" ng-click="resetAll()" ng-disabled="!query" type="submit"><i class="icon-search"></i></button>
+		</div>
+		<button class="btn btn-info" type="submit" ng-click="query=' '; resetAll()" ng-disabled="query">Reset</button>
+	</form>
+
 	<div class="span8 offset2 hero-unit">
 		<table class="table table-stripped table-condensed">
 			<thead>

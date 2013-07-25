@@ -105,8 +105,9 @@ function CreateProjectController($scope, $location, $cookieStore, BraamRes) {
 
 function ListProjectController($scope, $location, BraamRes) {
 	$scope.resetAll = function() {
-		var allProjects = BraamRes.query(function() {
+		var allProjects = BraamRes.query({q: $scope.query}, function() {
 			$scope.projects = allProjects;
+			$scope.query = "";
 		});
 	};
 
