@@ -20,7 +20,7 @@
 									<li class="" ng-show="canDevelop()"><a tabindex="-1" href="">Complete Project</a></li>
 									<li class="divider" ng-show="canDevelop()"></li>
 									<li class="">
-										<a tabindex="-1" href="/project">Create Project</a>
+										<a tabindex="-1" href="/new">Create Project</a>
 									</li>
 									<li class="divider"></li>
 									<li class="">
@@ -33,6 +33,11 @@
 				</div>
 			</div>
 		</div>
+	</div>
+
+	<div class="alert alert-error pagination-centered" ng-show="hasLoginFailed()">
+		<a class="close" data-dismiss="alert" href="#">x</a>
+		{{general.loginOrSignupFailureMessage}}
 	</div>
 
 	<div class="hero-unit">

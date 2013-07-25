@@ -5,6 +5,7 @@
 **/
 
 var UsersController = require('../lib/controllers/users').UsersController;
+var ProjectsController = require('../lib/controllers/projects').ProjectsController;
 
 module.exports = function(app) {
 	// get all projects
@@ -15,25 +16,35 @@ module.exports = function(app) {
 
 	// get a particular project
 	// get /api/project/:project_id
-	app.get('/api/project/:project_id', function(request, response) {
+	app.get('/api/projects/:project_id', function(request, response) {
 		// get a project code here
 	});
 
 	// add a new project
 	// post /api/project
-	app.post('/api/project', function(request, response) {
-		// add new project code here
+	app.post('/api/projects', function(request, response) {
+		console.log("Creating a new project");
+		new ProjectsController().createProject(request.body, function(projectCreationError, projectCreationResult) {
+			if ((typeof projectCreationError !== "undefined") && (projectCreationError !== null)) {
+				console.log("Project creation error message");
+				console.log(projectCreationError.message);
+				response.json(500, {error: projectCreationError.message});
+			} else{
+				console.log("Project creation successful. Will send the result");
+				response.json(projectCreationResult);
+			};
+		});
 	});
 
 	// edit an existing project
 	// put /api/project/:project_id
-	app.put('/api/project/:project_id', function(request, response){
+	app.put('/api/projects/:project_id', function(request, response){
 		// edit a project code here
 	});
 
 	// delete an existing project
 	// delete /api/project/project_id
-	app.delete('/api/project/:project_id', function(request, response) {
+	app.delete('/api/projects/:project_id', function(request, response) {
 		// delete a project code here
 	});
 

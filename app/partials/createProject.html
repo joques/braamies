@@ -1,0 +1,43 @@
+<div class="container">
+	<div class="span8 offset2">
+		<div class="hero-unit">
+			<form class="form-horizontal" name="createProjectForm">
+				<h2>New Project</h2>
+				<p>Please enter all the details to create a project</p>
+				<fieldset>
+					<legend></legend>
+					<div class="control-group" ng-class="{error: createProjectForm.codename.$invalid}">
+						<label class="control-label" for="codename">CodeName</label>
+						<div class="controls">
+							<input class="span2" ng-model="createProject.codename" name="codename" autofocus="on" type="text" size="20" placeholder="Project Code Name" required>
+						</div>
+					</div>
+					<div class="control-group" ng-class="{error: createProjectForm.title.$invalid}">
+						<label class="control-label" for="title">Title</label>
+						<div class="controls">
+							<input class="span3" ng-model="createProject.title" name="title" type="text" size="24" placeholder="Project Title" required>
+						</div>
+					</div>
+					<div class="control-group" ng-class="{error: createProjectForm.description.$invalid}">
+						<label class="control-label" for="description">Description</label>
+						<div class="controls">
+							<textarea class="span4" ng-model="createProject.description" name="description" rows="3" placeholder="Project Description" required></textarea>
+						</div>
+					</div>
+					<div class="control-group" ng-class="{error: createProjectForm.projecturl.$invalid}">
+						<label class="control-label" for="projecturl">URL</label>
+						<div class="controls">
+							<input class="span3" ng-model="createProject.projecturl" name="projecturl" type="url" size="24" placeholder="http://www.sourceforge.com" required>
+						</div>
+					</div>
+				</fieldset>
+				<fieldset>
+					<div class="control-group pull-right">
+						<button class="btn btn-success" ng-click="create()" ng-disabled="createProjectForm.$invalid">Create</button>
+						<a href="/" class="btn">Cancel</a>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+</div>

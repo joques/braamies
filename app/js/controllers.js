@@ -9,7 +9,8 @@ function IndexController($scope, $cookieStore) {
 		$scope.general = {
 			username: $cookieStore.get('username'),
 			fullName: $cookieStore.get('fullName'),
-			isDeveloper: $cookieStore.get('isDeveloper')
+			isDeveloper: $cookieStore.get('isDeveloper'),
+			loginOrSignupFailureMessage: $cookieStore.get('loginOrSignupFailureMessage')
 		};
 	};
 
@@ -26,6 +27,10 @@ function IndexController($scope, $cookieStore) {
 	$scope.canDevelop = function() {
 		return (($scope.general.isDeveloper !== undefined) && ($scope.general.isDeveloper));
 	};
+
+	$scope.hasLoginFailed = function() {
+		return ((typeof $scope.general.loginOrSignupFailureMessage !== "undefined") && ($scope.general.loginOrSignupFailureMessage !== null));	
+	};
 }
 
 function LoginController($scope, $location, $http, $cookieStore) {
@@ -36,6 +41,7 @@ function LoginController($scope, $location, $http, $cookieStore) {
 				$cookieStore.put('username', loginData.username);
 				$cookieStore.put('fullName', loginData.fullName);
 				$cookieStore.put('isDeveloper', loginData.isDeveloper);
+				$cookieStore.put('loginOrSignupFailureMessage', undefined);
 				$location.path('/');
 			}).
 			error(function(errorData, status, headers, config) {
@@ -43,6 +49,7 @@ function LoginController($scope, $location, $http, $cookieStore) {
 				$cookieStore.put('username', undefined);
 				$cookieStore.put('fullName', undefined);
 				$cookieStore.put('isDeveloper', undefined);
+				$cookieStore.put('loginOrSignupFailureMessage', errorData.error);
 				$location.path('/');
 			});
 	};
@@ -57,12 +64,14 @@ function SignUpController($scope, $location, $http, $cookieStore) {
 				$cookieStore.put('username', signupData.username);
 				$cookieStore.put('fullName', signupData.fullName);
 				$cookieStore.put('isDeveloper',signupData.isDeveloper);
+				$cookieStore.put('loginOrSignupFailureMessage', undefined);
 				$location.path('/');
 			}).
 			error(function(errorData, status, headers, config) {
 				$cookieStore.put('username', undefined);
 				$cookieStore.put('fullName', undefined);
 				$cookieStore.put('isDeveloper', undefined);
+				$cookieStore.put('loginOrSignupFailureMessage', errorData.error);
 				$location.path('/');
 			});
 	};
@@ -73,8 +82,23 @@ function LogoutController($scope, $location, $cookieStore) {
 		$cookieStore.put('username', undefined);
 		$cookieStore.put('fullName', undefined);
 		$cookieStore.put('isDeveloper', undefined);
+		$cookieStore.put('loginOrSignupFailureMessage', undefined);
 	};
 
 	$scope.cleanUpValues();
 	$location.path('/');
+}
+
+function createProjectController($scope, $location, $cookieStore, BraamRes) {
+	$scope.createProject = {
+		status: "pending"
+	};
+
+	$scope.create = function() {
+		console.log("inside create function of createProjectController");
+		$scope.createProject.creator = $cookieStore.get('username');
+		BraamRes.save($scope.createProject, function(){
+			$location.path('/');
+		});
+	};
 }

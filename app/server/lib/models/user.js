@@ -34,7 +34,8 @@ module.exports.User = function() {
 		var that = this;
 		dataManager.find('users', username, function(userDataError, userData) {
 			if ((typeof userDataError !== "undefined") && (userDataError !== null)) {
-				callback(userDataError, null);
+				var unknownUsernameError = new Error("Username " + username + " not in Db");
+				callback(unknownUsernameError, null);
 			} else{
 				var userPassword = userData.password;
 				that.passwordHandler.verifyPassword(password, userPassword, function(passwordError, compareResult) {
