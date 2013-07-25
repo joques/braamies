@@ -9,6 +9,13 @@ exports.DataManager = (function(){
 	function _LocalDataManager() {
 		// private methods and variables should go here
 
+		function projectListIterator(curProject, projectIteratorCallback) {
+			var projectsDb1 = nano.use('projects');
+			projectsDb1.get(curProject.key, function(curProjectError, curProjectResult) {
+				projectIteratorCallback(curProjectError, curProjectResult);
+			});
+		}
+
 		function findUser(userDocName, callback) {
 			var usersDb = nano.use('users');
 			usersDb.get(userDocName, function(userDocError, userDocBody) {
@@ -20,6 +27,19 @@ exports.DataManager = (function(){
 			var projectsDb = nano.use('projects');
 			projectsDb.get(projectDocName, function(projectDocError, projectDocBody){
 				callback(projectDocError, projectDocBody);
+			});
+		}
+
+		function findAllProjects(callback) {
+			var projectsDb = nano.use('projects');
+			projectsDb.list(function(projectListError, projectList) {
+				if ((typeof projectListError!== "undefined") && (projectListError !== null)) {
+					callback(projectListError, null);
+				} else{
+					async.map(projectList.rows, projectListIterator, function(allProjectsError, allProjects){
+						callback(allProjectsError, allProjects);
+					});
+				};
 			});
 		}
 
@@ -59,6 +79,14 @@ exports.DataManager = (function(){
 						break;
 				}
 			},
+
+			findAll: function(dbId, callback) {
+				switch(dbId) {
+					case "projects":
+						findAllProjects(callback);
+						break;
+				}
+			},
 			
 			createDataBases: function(callback) {
 				var dbCreate = {
@@ -80,7 +108,6 @@ exports.DataManager = (function(){
 
 			updateData: function(data, itemId){},
 			deleteData: function(){},
-			fetchAllData: function(){}
 		};
 	};
 

@@ -89,7 +89,7 @@ function LogoutController($scope, $location, $cookieStore) {
 	$location.path('/');
 }
 
-function createProjectController($scope, $location, $cookieStore, BraamRes) {
+function CreateProjectController($scope, $location, $cookieStore, BraamRes) {
 	$scope.createProject = {
 		status: "pending"
 	};
@@ -100,5 +100,31 @@ function createProjectController($scope, $location, $cookieStore, BraamRes) {
 		BraamRes.save($scope.createProject, function(){
 			$location.path('/');
 		});
+	};
+}
+
+function ListProjectController($scope, $location, BraamRes) {
+	$scope.resetAll = function() {
+		var allProjects = BraamRes.query(function() {
+			$scope.projects = allProjects;
+		});
+	};
+
+	$scope.resetAll();
+
+	$scope.statusLabelClass = function(statusValue) {
+		if ((typeof statusValue !== "undefined") && (statusValue !== "null")) {
+			if (statusValue.toLowerCase() === "completed") {
+				return "label-success";
+			} else{
+				if (statusValue.toLowerCase() === "in-progress") {
+					return "label-warning";
+				} else{
+					return " ";
+				};
+			};
+		} else{
+			return " ";
+		};
 	};
 }

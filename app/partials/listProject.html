@@ -1,0 +1,36 @@
+<div class="container">
+	<div class="masthead">
+		<h3 class="muted">Welcome to Braamies!</h3>
+
+		<!-- fixed navbar -->
+		<div class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container">
+					<div class="nav-collapse collapse">
+						<ul class="nav pull-right">
+							<li class=""><a href="/"><i class="icon-home"></i>Home</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="span8 offset2 hero-unit">
+		<table class="table table-stripped table-condensed">
+			<thead>
+				<th>Title</th>
+				<th>Code Name</th>
+				<th>URL</th>
+				<th>Status</th>
+			</thead>
+			<tbody>
+				<tr ng-repeat="project in projects">
+					<td>{{project.title}}</td>
+					<td>{{project.codename}}</td>
+					<td>{{project.projecturl}}</td>
+					<td><span class="label {{statusLabelClass(project.status)}}">{{project.status}}</span></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

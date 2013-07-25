@@ -9,6 +9,12 @@ module.exports.Project = function() {
 		});
 	}
 
+	this.listAllProjects = function(callback) {
+		dataManager.findAll('projects', function(findAllError, findAllResult) {
+			callback(findAllError, findAllResult);
+		});
+	}
+
 	this.listProjects = function(callback) {}
 
 	this.updateProject = function(updateData, projectId, callback) {}

@@ -10,4 +10,10 @@ module.exports.ProjectsController = function() {
 			callback(projectCreationError, projectCreationResult);
 		});
 	}
+
+	this.listAllProjects = function(listData, callback) {
+		this.project.listAllProjects(callback, function(projectListError, projectList) {
+			callback(projectListError, projectList);
+		});
+	}
 };

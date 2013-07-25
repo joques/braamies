@@ -8,10 +8,16 @@ var UsersController = require('../lib/controllers/users').UsersController;
 var ProjectsController = require('../lib/controllers/projects').ProjectsController;
 
 module.exports = function(app) {
-	// get all projects
-	// get /api/projects
+	// get all projects: "get /api/projects"
 	app.get('/api/projects', function(request, response) {
-		// get all projects function here
+		console.log("getting all projects...");
+		new ProjectsController().listAllProjects(request.body, function(projectListError, projectListObj) {
+			if ((typeof projectCreationError !== "undefined") && (projectListError !== null)) {
+				response.json(500, {error: projectListError.message});
+			} else{
+				response.json(projectListObj);
+			};
+		});
 	});
 
 	// get a particular project
@@ -20,17 +26,13 @@ module.exports = function(app) {
 		// get a project code here
 	});
 
-	// add a new project
-	// post /api/project
+	// add a new project: "post /api/projects"
 	app.post('/api/projects', function(request, response) {
 		console.log("Creating a new project");
 		new ProjectsController().createProject(request.body, function(projectCreationError, projectCreationResult) {
 			if ((typeof projectCreationError !== "undefined") && (projectCreationError !== null)) {
-				console.log("Project creation error message");
-				console.log(projectCreationError.message);
 				response.json(500, {error: projectCreationError.message});
 			} else{
-				console.log("Project creation successful. Will send the result");
 				response.json(projectCreationResult);
 			};
 		});
