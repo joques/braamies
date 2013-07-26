@@ -2,8 +2,8 @@
 
 var Project = require('../models/project').Project;
 
-module.exports.ProjectsController = function() {
-	this.project = new Project();
+module.exports.ProjectsController = function(extraParam) {
+	this.project = new Project(extraParam);
 
 	this.createProject = function(projectData, callback) {
 		this.project.createProject(projectData.codename, projectData, function(projectCreationError, projectCreationResult) {

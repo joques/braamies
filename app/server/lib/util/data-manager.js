@@ -1,19 +1,19 @@
 'use-strict';
 
-var nano = require('nano')('http://localhost:5984');
-// projectsdb: http://nodejitsudb19993362.iriscouch.com:5984
-// usersdb: http://nodejitsudb4713561108.iriscouch.com:5984
+var localNano = require('nano')('http://localhost:5984');
+var remoteProjectsDB = require('nano')('http://nodejitsudb19993362.iriscouch.com:5984');
+var remoteUsersDB = require('nano')('http://nodejitsudb4713561108.iriscouch.com:5984');
 var async = require('async');
 
 exports.DataManager = (function(){
 	var _dataManagerInstance;
 
-	function _LocalDataManager() {
+	function _LocalDataManager(dbLocation) {
 		// private methods and variables should go here
+		var dbMode = dbLocation;
 
 		function projectListIterator(curProject, projectIteratorCallback) {
-			var projectsDb1 = nano.use('projects');
-			projectsDb1.get(curProject.project.key, function(curProjectError, curProjectResult) {
+			getProjectsDB().get(curProject.project.key, function(curProjectError, curProjectResult) {
 				if ((typeof curProjectError !== "undefined") && (curProjectError !== null)) {
 					projectIteratorCallback(curProjectError, null);
 				} else{ 
@@ -30,23 +30,40 @@ exports.DataManager = (function(){
 			});
 		}
 
+		function getUsersDB() {
+			if ((typeof dbMode !== "undefined") && (dbMode !== null)) {
+				var localUsersdb = localNano.use('users');
+				return localUsersdb;
+			} else{
+				var remUsersDB = remoteUsersDB;
+				return remUsersDB;
+			};
+		}
+
+		function getProjectsDB() {
+			if ((typeof dbMode !== "undefined") && (dbMode !== null)) {
+				var localUsersdb = localNano.use('projects');
+				return localUsersdb;
+			} else{
+				var remProjectsDB = remoteProjectsDB;
+				return remProjectsDB;
+			};
+		}
+
 		function findUser(userDocName, callback) {
-			var usersDb = nano.use('users');
-			usersDb.get(userDocName, function(userDocError, userDocBody) {
+			getUsersDB().get(userDocName, function(userDocError, userDocBody) {
 				callback(userDocError, userDocBody);
 			});
 		}
 
 		function findProject(projectDocName, callback) {
-			var projectsDb = nano.use('projects');
-			projectsDb.get(projectDocName, function(projectDocError, projectDocBody){
+			getProjectsDB().get(projectDocName, function(projectDocError, projectDocBody){
 				callback(projectDocError, projectDocBody);
 			});
 		}
 
 		function findAllProjects(searchParam, callback) {
-			var projectsDb = nano.use('projects');
-			projectsDb.list(function(projectListError, projectList) {
+			getProjectsDB().list(function(projectListError, projectList) {
 				if ((typeof projectListError!== "undefined") && (projectListError !== null)) {
 					callback(projectListError, null);
 				} else{
@@ -64,29 +81,25 @@ exports.DataManager = (function(){
 		}
 
 		function saveUser(userDocName, userData, callback) {
-			var usersDb = nano.use('users');
-			usersDb.insert(userData, userDocName, function(userDocError, userDocBody) {
+			getUsersDB().insert(userData, userDocName, function(userDocError, userDocBody) {
 				callback(userDocError, userDocBody);
 			});
 		}
 
 		function saveProject(projectDocName, projectData, callback) {
-			var projectsDb = nano.use('projects');
-			projectsDb.insert(projectData, projectDocName, function(projectDocError, projectDocBody){
+			getProjectsDB().insert(projectData, projectDocName, function(projectDocError, projectDocBody){
 				callback(projectDocError, projectDocBody);
 			});
 		}
 
 		function removeProject(projectDocName, revisionValue, callback) {
-			var projectsDb = nano.use('projects');
-			projectsDb.destroy(projectDocName, revisionValue, function(projectDeletionError, projectDeletionResult){
+			getProjectsDB().destroy(projectDocName, revisionValue, function(projectDeletionError, projectDeletionResult){
 				callback(projectDeletionError, projectDeletionResult);
 			});
 		}
 
 		function updateProject(projectDocName, revisionValue, projectData, callback) {
-			var projectsDb = nano.use('projects');
-			projectsDb.insert(projectData, projectDocName, function(projectUpdateError, projectUpdateResult) {
+			getProjectsDB().insert(projectData, projectDocName, function(projectUpdateError, projectUpdateResult) {
 				callback(projectUpdateError, projectUpdateResult);
 			});
 		}
@@ -139,33 +152,34 @@ exports.DataManager = (function(){
 			},
 			
 			createDataBases: function(callback) {
-				var dbCreate = {
-					usersDbCreate: function(usersPartialCallback) {
-						nano.db.create('users', function(usersDbError, usersDbBody){
-							usersPartialCallback(usersDbError, usersDbBody);
-						});
-					},
-					projectsDbCreate: function(projectsPartialCallback) {
-						nano.db.create('projects', function(projectsDbError, projectsDbBody){
-							projectsPartialCallback(projectsDbError, projectsDbBody);
-						});
-					}
+				if ((typeof dbMode !== "undefined") && (dbMode !== null)) {
+					var dbCreate = {
+						usersDbCreate: function(usersPartialCallback) {
+							localNano.db.create('users', function(usersDbError, usersDbBody){
+								usersPartialCallback(usersDbError, usersDbBody);
+							});
+						},
+						projectsDbCreate: function(projectsPartialCallback) {
+							localNano.db.create('projects', function(projectsDbError, projectsDbBody){
+								projectsPartialCallback(projectsDbError, projectsDbBody);
+							});
+						}
+					};
+					async.series(dbCreate, function(dbCreateError, dbCreateResult){
+						callback(dbCreateError);
+					});
+				} else{
+					callback(null);
 				};
-				async.series(dbCreate, function(dbCreateError, dbCreateResult){
-					callback(dbCreateError);
-				});
 			},
-
-			updateData: function(data, itemId){},
-			deleteData: function(){},
 		};
 	};
 
 	return {
 		// get the singleton instance if one exists or create it
-		getDataManagerInstance: function() {
+		getDataManagerInstance: function(dbLocation) {
 			if ( !_dataManagerInstance ) {
-				_dataManagerInstance = _LocalDataManager();
+				_dataManagerInstance = _LocalDataManager(dbLocation);
 				_dataManagerInstance.createDataBases(function(createDBError, createDBResult) {
 					if ((typeof createDBError !== "undefined") && (createDBError !== null)) {
 						console.log("The databases already exist. New creation failed!");

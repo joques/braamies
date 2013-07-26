@@ -16,7 +16,9 @@ __braamies__ has been developed using [agular.js](http://angularjs.org). We use 
 
 # Execution
 
-To run __braamies__, first start the database server as follows: <code>couchdb</code>. This will start a couchdb server. It runs on port 5984. You can also create your database on [iris couch](http://www.iriscouch.com), a cloud service for couchdb databases. Whichever database you choose to use the correct the url should be stored in the file data-manager.js (app/server/util). Finally, you can fire the node server in <code>node scripts/braamie.js</code>
+To run __braamies__, first start the database server as follows: <code>couchdb</code>. This will start a couchdb server. It runs on port 5984. You can also create your database on [iris couch](http://www.iriscouch.com), a cloud service for couchdb databases. Whichever database you choose to use the correct the url should be stored in the file data-manager.js (app/server/util). Finally, you can fire the node server in <code>node scripts/braamie.js [local]</code>
+
+Because the code can support both local mode and remote mode, we use an additional argument when running it locally.
 
 # Deployment
 

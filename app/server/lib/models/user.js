@@ -1,10 +1,11 @@
 'use strict';
 
 var PasswordHandler = require('../util/password-handler').PasswordHandler;
-var dataManager = require('../util/data-manager').DataManager.getDataManagerInstance();
+var DataManager = require('../util/data-manager').DataManager;
 
-module.exports.User = function() {
+module.exports.User = function(extraParam) {
 	this.passwordHandler = new PasswordHandler();
+	var dataManager = DataManager.getDataManagerInstance(extraParam);
 
 	var prepareSessionData = function(userData, callback){
 		var firstName;

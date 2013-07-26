@@ -1,9 +1,10 @@
 'use strict';
 
 var async = require('async');
-var dataManager = require('../util/data-manager').DataManager.getDataManagerInstance();
+var DataManager = require('../util/data-manager').DataManager;
 
-module.exports.Project = function() {
+module.exports.Project = function(extraParam) {
+	var dataManager = DataManager.getDataManagerInstance(extraParam);
 	this.createProject = function(projectId, projectData, callback) {
 		dataManager.save('projects', projectId, projectData, function(saveProjectError, saveProjectResult) {
 			callback(saveProjectError, saveProjectResult);

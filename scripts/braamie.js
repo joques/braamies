@@ -31,9 +31,11 @@ app.configure('production', function() {
 	app.use(express.errorHandler());
 });
 
+var extraParam = process.argv[2];
+
 // route inclusion
 require('../app/server/routes/view-routes')(app);
-require('../app/server/routes/api-routes')(app);
+require('../app/server/routes/api-routes')(app, extraParam);
 
 // start server
 server.listen(7493, function(){
