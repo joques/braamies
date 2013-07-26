@@ -1,7 +1,7 @@
 {
 	"name": "braamies",
 	"description": "A community-based project management tool using node.js and angular.js",
-	"version": "0.0.1",
+	"version": "0.0.1-2",
 	"author": "José G. Quneum <josum@me.com>",
 	"private": "true",
 	"repository": {
@@ -14,5 +14,12 @@
 		"nano": "4.1.1",
 		"ejs": "0.8.4",
 		"bcrypt": "0.7.5"
+	},
+	"subdomain": "joques",
+	"scripts": {
+		"start": "scripts/braamie.js"
+	},
+	"engines": {
+		"node": "0.8.x"
 	}
 }

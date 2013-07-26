@@ -1,6 +1,8 @@
 'use-strict';
 
 var nano = require('nano')('http://localhost:5984');
+// projectsdb: http://nodejitsudb19993362.iriscouch.com:5984
+// usersdb: http://nodejitsudb4713561108.iriscouch.com:5984
 var async = require('async');
 
 exports.DataManager = (function(){
