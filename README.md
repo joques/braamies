@@ -24,8 +24,9 @@ We deployed a version of __braamies__ on [nodejistu](https://www.nodejitsu.com).
 To start using jitsu, you need to log in with <code>jitsu login</code> and enter your credentials
 Next,  you need to create the database using iris couch as follows:
 <pre><code>
-	jitsu databases create couchdb [database name]
+	jitsu databases create couch [database name]
 </code></pre>
+Note that Nodejitsu supports three database systems: couchdb (couch), redis (redis) and mongodb (mongo).
 In couchdb, a database is more like a bucket. In __braamies__ we use two databases: users and projects. Finally, you can deploy the app with the command: <code>jitsu deploy</code>
 When everything is done, you should log out with <code>jitsu logout</code>
 
