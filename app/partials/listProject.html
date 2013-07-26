@@ -31,6 +31,7 @@
 				<th>Code Name</th>
 				<th>URL</th>
 				<th>Status</th>
+				<th></th>
 			</thead>
 			<tbody>
 				<tr ng-repeat="project in projects">
@@ -38,6 +39,7 @@
 					<td>{{project.codename}}</td>
 					<td>{{project.projecturl}}</td>
 					<td><span class="label {{statusLabelClass(project.status)}}">{{project.status}}</span></td>
+					<td><a href="/edit/{{project.codename}}"><i class="icon-edit"></i></a></td>
 				</tr>
 			</tbody>
 		</table>

@@ -129,3 +129,7 @@ function ListProjectController($scope, $location, BraamRes) {
 		};
 	};
 }
+
+function EditProjectController($scope, $routeParams, $location, BraamRes) {
+	
+}
