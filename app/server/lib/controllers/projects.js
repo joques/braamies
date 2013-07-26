@@ -12,8 +12,26 @@ module.exports.ProjectsController = function() {
 	}
 
 	this.listAllProjects = function(listData, searchParam, callback) {
-		this.project.listAllProjects(searchParam, callback, function(projectListError, projectList) {
+		this.project.listAllProjects(searchParam, function(projectListError, projectList) {
 			callback(projectListError, projectList);
+		});
+	}
+
+	this.getProject = function(projectId, callback) {
+		this.project.getProject(projectId, function(projectItemError, projectItem) {
+			callback(projectItemError, projectItem);
+		});
+	}
+
+	this.deleteProject = function(projectId, revisionValue, callback) {
+		this.project.deleteProject(projectId, revisionValue, function(projectDeletionError, projectDeletionResukt){
+			callback(projectDeletionError, projectDeletionResukt);
+		});
+	}
+
+	this.updateProject = function(projectId, revisionValue, projectDetails, callback) {
+		this.project.updateProject(projectId, revisionValue, projectDetails, function(projectDeletionError, projectDeletionResult){
+			callback(projectDeletionError, projectDeletionResult);
 		});
 	}
 };

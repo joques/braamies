@@ -25,11 +25,21 @@ module.exports.Project = function() {
 		});
 	}
 
-	this.listProjects = function(callback) {}
+	this.getProject = function(projectId, callback) {
+		dataManager.find('projects', projectId, function(projectItemError, projectItem) {
+			callback(projectItemError, projectItem);
+		});
+	}
 
-	this.updateProject = function(updateData, projectId, callback) {}
+	this.deleteProject = function(projectId, revisionValue, callback){
+		dataManager.remove('projects', projectId, revisionValue, function(deleteProjectError, deleteProjectResult){
+			callback(deleteProjectError, deleteProjectResult);
+		})
+	}
 
-	this.deleteProject = function(projectId, callback) {}
-
-	this.fetchProject = function(projectId, callback) {}
+	this.updateProject = function(projectId, revisionValue, projectDetails, callback) {
+		dataManager.update('projects', projectId, revisionValue, projectDetails, function(projectUpdateError, projectUpdateREsult){
+			callback(projectUpdateError, projectUpdateREsult);
+		});
+	}
 };

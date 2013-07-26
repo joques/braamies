@@ -75,6 +75,20 @@ exports.DataManager = (function(){
 			});
 		}
 
+		function removeProject(projectDocName, revisionValue, callback) {
+			var projectsDb = nano.use('projects');
+			projectsDb.destroy(projectDocName, revisionValue, function(projectDeletionError, projectDeletionResult){
+				callback(projectDeletionError, projectDeletionResult);
+			});
+		}
+
+		function updateProject(projectDocName, revisionValue, projectData, callback) {
+			var projectsDb = nano.use('projects');
+			projectsDb.insert(projectData, projectDocName, function(projectUpdateError, projectUpdateResult) {
+				callback(projectUpdateError, projectUpdateResult);
+			});
+		}
+
 		return {
 			find: function(dbId, docName, callback) {
 				switch(dbId) {
@@ -102,6 +116,22 @@ exports.DataManager = (function(){
 				switch(dbId) {
 					case "projects":
 						findAllProjects(searchParam, callback);
+						break;
+				}
+			},
+
+			remove: function(dbId, docName, revisionValue, callback) {
+				switch(dbId) {
+					case "projects":
+						removeProject(docName, revisionValue, callback);
+						break;
+				}
+			}, 
+
+			update: function(dbId, docName, revisionValue, docData, callback) {
+				switch(dbId) {
+					case "projects":
+						updateProject(docName, revisionValue, docData, callback);
 						break;
 				}
 			},

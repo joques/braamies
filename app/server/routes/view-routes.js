@@ -17,4 +17,9 @@ module.exports = function(app) {
 		var name = request.params.name;
 		response.render('partials/' + name );
 	});
+
+	app.get('/edit/partials/:name', function(request, response) {
+		var name = request.params.name;
+		response.render('partials/' + name);
+	});
 };

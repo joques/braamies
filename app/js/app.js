@@ -12,6 +12,7 @@ angular.module('braam', ['ngCookies', 'ngResource']).
 		when('/logout', {template: " ", controller: LogoutController}).
 		when('/new', {templateUrl: "partials/createProject.html", controller: CreateProjectController}).
 		when('/list', {templateUrl: "partials/listProject.html", controller: ListProjectController}).
-		when('/edit/:project_id', {templateUrl: "partials/editProject.html", controller: EditProjectController});
+		when('/edit/:projectid', {templateUrl: "partials/editProject.html", controller: EditOrDeleteProjectController}).
+		otherwise({redirectTo: '/'});
 	$locationProvider.html5Mode(true);
 }]);

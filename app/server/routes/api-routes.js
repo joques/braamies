@@ -20,15 +20,21 @@ module.exports = function(app) {
 		});
 	});
 
-	// get a particular project
-	// get /api/project/:project_id
+	// get a particular project: "get /api/project/:project_id"
 	app.get('/api/projects/:project_id', function(request, response) {
-		// get a project code here
+		console.log("getting project...");
+		new ProjectsController().getProject(request.params.project_id, function(projectReadError, projectReadResult) {
+			if ((typeof projectReadError !== "undefined") && (projectReadError !== null)) {
+				response.json(500, {error: projectReadError.message});
+			} else{
+				response.json(projectReadResult);
+			};
+		});
 	});
 
 	// add a new project: "post /api/projects"
 	app.post('/api/projects', function(request, response) {
-		console.log("Creating a new project");
+		console.log("Creating a new project...");
 		new ProjectsController().createProject(request.body, function(projectCreationError, projectCreationResult) {
 			if ((typeof projectCreationError !== "undefined") && (projectCreationError !== null)) {
 				response.json(500, {error: projectCreationError.message});
@@ -38,16 +44,28 @@ module.exports = function(app) {
 		});
 	});
 
-	// edit an existing project
-	// put /api/project/:project_id
+	// edit an existing project: "put /api/project/:project_id"
 	app.put('/api/projects/:project_id', function(request, response){
-		// edit a project code here
+		console.log("Updating a project...");
+		new ProjectsController().updateProject(request.params.project_id, request.query._rev, request.body, function(projectUpdateError, projectUpdateResult){
+			if ((typeof projectUpdateError !== "undefined") && (projectUpdateError !== null)) {
+				response.json(500, {error: projectUpdateError.message});
+			} else{
+				response.json({update: "success"});
+			};
+		});
 	});
 
-	// delete an existing project
-	// delete /api/project/project_id
+	// delete an existing project: "delete /api/project/project_id"
 	app.delete('/api/projects/:project_id', function(request, response) {
-		// delete a project code here
+		console.log("Deleting a project...");
+		new ProjectsController().deleteProject(request.params.project_id, request.query._rev, function(projectDeletionError, projectDeletionResult){
+			if ((typeof projectDeletionError !== "undefined") && (projectDeletionError !== null)) {
+				response.json(500, {error: projectDeletionError.message});
+			} else{
+				response.json({deletion: "success"});
+			};
+		});
 	});
 
 	// user authentication
