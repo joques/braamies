@@ -35,7 +35,7 @@ exports.DataManager = (function(){
 				var localUsersdb = localNano.use('users');
 				return localUsersdb;
 			} else{
-				var remUsersDB = remoteUsersDB;
+				var remUsersDB = remoteUsersDB.use('users');
 				return remUsersDB;
 			};
 		}
@@ -45,7 +45,7 @@ exports.DataManager = (function(){
 				var localUsersdb = localNano.use('projects');
 				return localUsersdb;
 			} else{
-				var remProjectsDB = remoteProjectsDB;
+				var remProjectsDB = remoteProjectsDB.use('projects');
 				return remProjectsDB;
 			};
 		}
@@ -153,7 +153,7 @@ exports.DataManager = (function(){
 			
 			createDataBases: function(callback) {
 				if ((typeof dbMode !== "undefined") && (dbMode !== null)) {
-					var dbCreate = {
+					var localDBCreate = {
 						usersDbCreate: function(usersPartialCallback) {
 							localNano.db.create('users', function(usersDbError, usersDbBody){
 								usersPartialCallback(usersDbError, usersDbBody);
@@ -165,11 +165,25 @@ exports.DataManager = (function(){
 							});
 						}
 					};
-					async.series(dbCreate, function(dbCreateError, dbCreateResult){
+					async.series(localDBCreate, function(dbCreateError, dbCreateResult){
 						callback(dbCreateError);
 					});
 				} else{
-					callback(null);
+					var remoteDBCreate = {
+						usersDbCreate: function(usersPartialCallback) {
+							remoteUsersDB.db.create('users', function(usersDbError, usersDbBody){
+								usersPartialCallback(usersDbError, usersDbBody);
+							});
+						},
+						projectsDbCreate: function(projectsPartialCallback) {
+							remoteProjectsDB.db.create('projects', function(projectsDbError, projectsDbBody){
+								projectsPartialCallback(projectsDbError, projectsDbBody);
+							});
+						}
+					};
+					async.series(remoteDBCreate, function(dbCreateError, dbCreateResult){
+						callback(dbCreateError);
+					});
 				};
 			},
 		};
