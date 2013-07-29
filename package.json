@@ -1,25 +1,25 @@
 {
-	"name": "braamies",
-	"description": "A community-based project management tool using node.js and angular.js",
-	"version": "0.0.1-5",
-	"author": "José G. Quneum <josum@me.com>",
-	"private": "true",
-	"repository": {
-		"type": "git",
-		"url": "git@github.com:joques/braamies.git"
-	},
-	"dependencies": {
-		"express": "3.x",
-		"async": "0.2.8",
-		"nano": "4.1.1",
-		"ejs": "0.8.4",
-		"bcrypt": "0.7.5"
-	},
-	"subdomain": "braamies",
-	"scripts": {
-		"start": "scripts/braamie.js"
-	},
-	"engines": {
-		"node": "0.8.x"
-	}
+  "name": "braamies",
+  "description": "A community-based project management tool using node.js and angular.js",
+  "version": "0.0.1-5",
+  "author": "José G. Quneum <josum@me.com>",
+  "private": "true",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:joques/braamies.git"
+  },
+  "dependencies": {
+    "express": "3.x",
+    "async": "0.2.8",
+    "nano": "4.1.1",
+    "ejs": "0.8.4",
+    "bcrypt": "0.7.5"
+  },
+  "subdomain": "braamies",
+  "scripts": {
+    "start": "scripts/braamie.js"
+  },
+  "engines": {
+    "node": "0.8.x"
+  }
 }
