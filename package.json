@@ -2,7 +2,7 @@
 	"name": "braamies",
 	"description": "A community-based project management tool using node.js and angular.js",
 	"version": "0.0.1-4",
-	"author": "José G. Quneum <josum@me.com>",
+	"author": "José G. Quenum <josum@me.com>",
 	"private": "true",
 	"repository": {
 		"type": "git",
